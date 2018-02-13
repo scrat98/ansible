@@ -1,0 +1,18 @@
+---
+# Apache listeners.
+apache_listeners: []
+  # - 192.168.1.101:8090 https
+apache_listen_ports:
+  - 80
+  - 8080
+apache_listen_ports_ssl:
+  - 443
+
+# Apache mods.
+apache_mods_enabled:
+  - ssl
+apache_mods_disabled: []
+
+# Apache SSL.
+
+# Apache vhosts.

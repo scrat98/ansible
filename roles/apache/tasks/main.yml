@@ -1,0 +1,15 @@
+---
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define apache_packages.
+  set_fact:
+    apache_packages: "{{ default_apache_packages }}"
+  when: apache_packages is not defined
+
+# Setup and install Apache.
+- include_tasks: "setup_{{ ansible_os_family }}.yml"
+
+# Configure Apache.
+- include_tasks: "configure_{{ ansible_os_family }}.yml"

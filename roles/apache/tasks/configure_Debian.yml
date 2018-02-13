@@ -1,0 +1,48 @@
+---
+# Apache listeners.
+- name: Delete Apache Listeners.
+  lineinfile:
+    dest: "{{ apache_conf_path }}/ports.conf"
+    regexp: "^Listen"
+    state: absent
+  notify: restart apache
+
+- name: Configure Apache listeners.
+  lineinfile:
+    dest: "{{ apache_conf_path }}/ports.conf"
+    line: "Listen {{ item }}"
+    state: present
+  with_items:
+    - "{{ apache_listeners }}"
+    - "{{ apache_listen_ports }}"
+  notify: restart apache
+
+- name: Configure Apache listeners ssl.
+  lineinfile:
+    dest: "{{ apache_conf_path }}/ports.conf"
+    line: "Listen {{ item }} https"
+    state: present
+  with_items:
+    - "{{ apache_listen_ports_ssl }}"
+  notify: restart apache
+
+# Apache mods.
+# TODO: add ssl module if ssl ports enabled
+
+- name: Enable Apache mods.
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items: "{{ apache_mods_enabled }}"
+  notify: restart apache
+
+- name: Disable Apache mods.
+  apache2_module:
+    state: absent
+    name: "{{ item }}"
+  with_items: "{{ apache_mods_disabled }}"
+  notify: restart apache
+
+# Apache SSL.
+
+# Apache vhosts

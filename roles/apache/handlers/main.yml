@@ -1,0 +1,15 @@
+---
+- name: start apache
+  service:
+    name: "{{ apache_service }}"
+    state: started
+
+- name: stop apache
+  service:
+    name: "{{ apache_service }}"
+    state: stopped
+
+- name: restart apache
+  service:
+    name: "{{ apache_service }}"
+    state: restarted

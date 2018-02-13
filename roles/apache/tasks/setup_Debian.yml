@@ -1,0 +1,7 @@
+---
+- name: Install apache on Debian.
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items: "{{ apache_packages }}"
