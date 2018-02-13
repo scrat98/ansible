@@ -1,4 +1,17 @@
 ---
+# Delete all files from conf.d
+- name: Find files in conf.d
+  find:
+    paths: "{{ apache_server_root }}/conf.d"
+    patterns: "*"
+  register: result
+
+- name: Delete files from conf.d
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ result.files }}"
+
 # Apache listeners.
 - name: Delete Apache Listeners.
   lineinfile:
@@ -6,6 +19,16 @@
     regexp: "^Listen"
     state: absent
   notify: restart apache
+
+- name: Manages SELinux network port type definitions.
+  seport:
+    ports: "{{ item }}"
+    setype: http_port_t
+    proto: tcp
+    state: present
+  with_items:
+    - "{{ apache_listen_ports }}"
+    - "{{ apache_listen_ports_ssl }}"
 
 - name: Configure Apache listeners.
   lineinfile:

@@ -11,3 +11,5 @@ default_apache_packages:
   - mod_ssl
   - openssl
   - openssh
+  - policycoreutils-python
+  - libselinux-python
