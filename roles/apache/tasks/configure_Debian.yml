@@ -31,6 +31,7 @@
   set_fact:
     apache_mods_enabled: "{{ apache_mods_enabled | union(['ssl']) }}"
   when: apache_listen_ports_ssl | length > 0
+  notify: restart apache
 
 - name: Enable Apache mods.
   apache2_module:
@@ -47,5 +48,36 @@
   notify: restart apache
 
 # Apache SSL.
+- name: Setup ssl protocol
+  lineinfile:
+    dest: "{{ apache_conf_path }}/apache2.conf"
+    line: "SSLProtocol {{ apache_ssl_protocol }}"
+    state: present
+  when: apache_ssl_protocol != ""
+  notify: restart apache
+
+- name: Setup ssl Cipher Suite
+  lineinfile:
+    dest: "{{ apache_conf_path }}/apache2.conf"
+    line: "SSLCipherSuite {{ apache_ssl_cipher_suite }}"
+    state: present
+  when: apache_ssl_cipher_suite != ""
+  notify: restart apache
+
+- name: Setup ssl public key
+  lineinfile:
+    dest: "{{ apache_conf_path }}/apache2.conf"
+    line: "SSLCertificateFile {{ apache_ssl_certificate_file }}"
+    state: present
+  when: apache_ssl_certificate_file != ""
+  notify: restart apache
+
+- name: Setup ssl private key
+  lineinfile:
+    dest: "{{ apache_conf_path }}/apache2.conf"
+    line: "SSLCertificateKeyFile {{ apache_ssl_certificate_keyfile }}"
+    state: present
+  when: apache_ssl_certificate_keyfile != ""
+  notify: restart apache
 
 # Apache vhosts

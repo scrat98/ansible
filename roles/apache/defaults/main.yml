@@ -9,10 +9,14 @@ apache_listen_ports_ssl:
   - 443
 
 # Apache mods.
-apache_mods_enabled:
-  - ssl
+apache_mods_enabled: []
 apache_mods_disabled: []
 
 # Apache SSL.
+apache_ssl_certificate_file: ""
+apache_ssl_certificate_keyfile: ""
+
+apache_ssl_protocol: "All -SSLv2 -SSLv3"
+apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
 
 # Apache vhosts.
