@@ -50,7 +50,10 @@
   notify: restart apache
 
 # Apache mods.
-# TODO: add ssl module if ssl ports enabled
+- name: Add ssl module if ssl ports enabled
+  set_fact:
+    apache_mods_enabled: "{{ apache_mods_enabled | union(['ssl']) }}"
+  when: apache_listen_ports_ssl | length > 0
 
 - name: Enable Apache mods.
   lineinfile:
