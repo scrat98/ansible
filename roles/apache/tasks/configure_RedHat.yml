@@ -105,3 +105,9 @@
   notify: restart apache
 
 # Apache vhosts.
+- name: Add own vhost file.
+  copy:
+    src: "{{ apache_vhosts_filename }}"
+    dest: "{{ apache_conf_path }}/extra/httpd-vhosts.conf"
+  when: apache_vhosts_filename != ""
+  notify: restart apache
