@@ -1,0 +1,16 @@
+---
+- name: Install docker
+  hosts: all
+  become: true
+  vars:
+    docker_daemon_json:
+      storage-driver: "overlay2"
+      graph: "/var/lib/docker"
+      log-driver: "json-file"
+      log-opts:
+        max-size: "10m"
+        max-file: "2"
+      debug: "false"
+      userns-remap: "1000:1000"
+  roles:
+    - docker

@@ -1,0 +1,31 @@
+---
+- name: Delete old version of docker.
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ docker_old_packages }}"
+
+- name: Install Docker dependencies.
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items: "{{ docker_dependencies }}"
+
+- name: Add Docker GPG key.
+  apt_key:
+    url: "{{ docker_gpg_key }}"
+    state: present
+
+- name: Add Docker repository.
+  apt_repository:
+    repo: "{{ docker_repository }}"
+    update_cache: yes
+    state: present
+
+- name: Install Docker.
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items: "{{ docker_packages }}"

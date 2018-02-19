@@ -1,1 +1,8 @@
+---
+- name: Install docker and apache
+  hosts: all
+  become: true
+  roles:
+    - apache
+    - docker
 

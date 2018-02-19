@@ -1,0 +1,21 @@
+---
+docker_service: docker
+docker_daemon: docker
+docker_conf_path: /etc/docker
+
+docker_repository: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+docker_gpg_key: "https://download.docker.com/linux/ubuntu/gpg"
+
+docker_default_packages:
+  - docker-ce
+
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+docker_old_packages:
+  - docker
+  - docker-engine
+  - docker.io

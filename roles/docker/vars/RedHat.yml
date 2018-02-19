@@ -1,0 +1,20 @@
+---
+docker_service: docker
+docker_daemon: docker
+docker_conf_path: /etc/docker
+
+docker_repository: "https://download.docker.com/linux/centos/docker-ce.repo"
+docker_gpg_key: "https://download.docker.com/linux/centos/gpg"
+
+docker_default_packages:
+  - docker-ce
+
+docker_dependencies:
+  - device-mapper-persistent-data
+  - lvm2
+
+docker_old_packages:
+  - docker
+  - docker-common
+  - docker-selinux
+  - docker-engine

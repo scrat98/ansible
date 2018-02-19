@@ -1,0 +1,11 @@
+---
+# Create daemon.json
+- name: Ensures docker conf dir exists
+  file:
+    path: "{{docker_conf_path}}"
+    state: directory
+
+- name: Create daemon.json
+  copy:
+    content: "{{ docker_daemon_json | to_nice_json }}"
+    dest: "{{ docker_conf_path }}/daemon.json"
